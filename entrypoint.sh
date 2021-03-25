@@ -37,6 +37,11 @@ ${AWS_REGION}
 text
 EOF
 
+# Override default AWS endpoint if user sets AWS_S3_ENDPOINT.
+if [ -n "$AWS_SESSION_TOKEN" ]; then
+  echo "aws_session_token = ${AWS_SESSION_TOKEN}" >> ~/.aws/credentials
+fi
+
 # Sync using our dedicated profile and suppress verbose messages.
 # All other flags are optional via the `args:` directive.
 sh -c "aws s3 sync ${SOURCE_DIR:-.} s3://${AWS_S3_BUCKET}/${DEST_DIR} \
